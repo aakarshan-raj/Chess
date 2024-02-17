@@ -4,6 +4,7 @@
 #include <map>
 #include <iostream>
 #include <math.h>
+#include "Game.h"
 
 struct TOP_DOWN_CENTER
 {
@@ -91,84 +92,86 @@ std::map<std::string, TOP_DOWN_CENTER> BOARD = {
 int main()
 {
 
-    std::cout << BOARD["H1"].bottom_left_y << std::endl;
+     Game chess_game = Game();
+     chess_game.run();
+    // std::cout << BOARD["H1"].bottom_left_y << std::endl;
 
-    for (const auto &x : BOARD)
-    {
-        std::cout << x.first << ":"
-                  << "TOP X:" << x.second.top_right_x << ", BOTTOM Y:" << x.second.bottom_left_y
-                  << "| CENTER X:" << x.second.x_center << ", CENTER Y:" << x.second.y_center << std::endl;
-    }
+    // for (const auto &x : BOARD)
+    // {
+    //     std::cout << x.first << ":"
+    //               << "TOP X:" << x.second.top_right_x << ", BOTTOM Y:" << x.second.bottom_left_y
+    //               << "| CENTER X:" << x.second.x_center << ", CENTER Y:" << x.second.y_center << std::endl;
+    // }
 
-    sf::RenderWindow window(sf::VideoMode(1000, 1000), "CHESS!");
-    window.setFramerateLimit(60);
+    // sf::RenderWindow window(sf::VideoMode(1000, 1000), "CHESS!");
+    // window.setFramerateLimit(60);
 
-    sf::Texture board;
-    sf::Sprite board_sprite;
-    board.loadFromFile("assets/board.jpg");
-    board_sprite.setTexture(board);
+    // sf::Texture board;
+    // sf::Sprite board_sprite;
+    // board.loadFromFile("assets/board.jpg");
+    // board_sprite.setTexture(board);
 
-    sf::Texture pawn;
-    sf::Sprite pawn_sprite;
-    pawn.loadFromFile("assets/pawn.png");
-    pawn_sprite.setTexture(pawn);
-    pawn_sprite.setOrigin(pawn.getSize().x / 2, pawn.getSize().y / 2);
-    int x = 0;
-    int y = 0;
-    bool move_pawn = false;
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-            if (event.type == sf::Event::KeyPressed)
-            {
-                if (event.key.code = sf::Keyboard::Q)
-                {
-                    window.close();
-                }
-            }
-            if (event.type == sf::Event::MouseButtonPressed)
-            {
-                if (event.mouseButton.button == sf::Mouse::Left)
-                {
-                    move_pawn = true;
-                    std::cout << event.mouseButton.x << ":" << event.mouseButton.y << std::endl;
-                }
-            }
-            if (event.type == sf::Event::MouseButtonReleased)
-            {
-                if (event.mouseButton.button == sf::Mouse::Left)
-                {
-                    move_pawn = false;
-                    for (auto const &x : BOARD)
-                    {
-                        if ((x.second.top_right_x < pawn_sprite.getPosition().x && x.second.top_right_x + 125 > pawn_sprite.getPosition().x) &&
-                            (x.second.bottom_left_y - 125 < pawn_sprite.getPosition().y && x.second.bottom_left_y > pawn_sprite.getPosition().y))
-                        {
-                            std::cout << "Pawn is in " << x.first << " Block" << std::endl;
-                            pawn_sprite.setPosition(x.second.x_center,x.second.y_center);
-                        }
-                    }
-                }
-            }
-        }
+    // sf::Texture pawn;
+    // sf::Sprite pawn_sprite;
+    // pawn.loadFromFile("assets/pawn.png");
+    // pawn_sprite.setTexture(pawn);
+    // pawn_sprite.setOrigin(pawn.getSize().x / 2, pawn.getSize().y / 2);
+    // int x = 0;
+    // int y = 0;
+    // bool move_pawn = false;
+    // while (window.isOpen())
+    // {
+    //     sf::Event event;
+    //     while (window.pollEvent(event))
+    //     {
+    //         if (event.type == sf::Event::Closed)
+    //             window.close();
+    //         if (event.type == sf::Event::KeyPressed)
+    //         {
+    //             if (event.key.code = sf::Keyboard::Q)
+    //             {
+    //                 window.close();
+    //             }
+    //         }
+    //         if (event.type == sf::Event::MouseButtonPressed)
+    //         {
+    //             if (event.mouseButton.button == sf::Mouse::Left)
+    //             {
+    //                 move_pawn = true;
+    //                 std::cout << event.mouseButton.x << ":" << event.mouseButton.y << std::endl;
+    //             }
+    //         }
+    //         if (event.type == sf::Event::MouseButtonReleased)
+    //         {
+    //             if (event.mouseButton.button == sf::Mouse::Left)
+    //             {
+    //                 move_pawn = false;
+    //                 for (auto const &x : BOARD)
+    //                 {
+    //                     if ((x.second.top_right_x < pawn_sprite.getPosition().x && x.second.top_right_x + 125 > pawn_sprite.getPosition().x) &&
+    //                         (x.second.bottom_left_y - 125 < pawn_sprite.getPosition().y && x.second.bottom_left_y > pawn_sprite.getPosition().y))
+    //                     {
+    //                         std::cout << "Pawn is in " << x.first << " Block" << std::endl;
+    //                         pawn_sprite.setPosition(x.second.x_center,x.second.y_center);
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
 
-        window.clear();
-        window.draw(board_sprite);
-        window.draw(pawn_sprite);
-        if (move_pawn &&
-            ((pawn_sprite.getPosition().x - (pawn_sprite.getTexture()->getSize().x) / 2) < sf::Mouse::getPosition(window).x) &&
-            ((pawn_sprite.getPosition().x + (pawn_sprite.getTexture()->getSize().x) / 2) > sf::Mouse::getPosition(window).x) &&
-            ((pawn_sprite.getPosition().y + (pawn_sprite.getTexture()->getSize().y) / 2) > sf::Mouse::getPosition(window).y) &&
-            ((pawn_sprite.getPosition().y - (pawn_sprite.getTexture()->getSize().y) / 2) < sf::Mouse::getPosition(window).y)
+    //     window.clear();
+    //     window.draw(board_sprite);
+    //     window.draw(pawn_sprite);
+    //     if (move_pawn &&
+    //         ((pawn_sprite.getPosition().x - (pawn_sprite.getTexture()->getSize().x) / 2) < sf::Mouse::getPosition(window).x) &&
+    //         ((pawn_sprite.getPosition().x + (pawn_sprite.getTexture()->getSize().x) / 2) > sf::Mouse::getPosition(window).x) &&
+    //         ((pawn_sprite.getPosition().y + (pawn_sprite.getTexture()->getSize().y) / 2) > sf::Mouse::getPosition(window).y) &&
+    //         ((pawn_sprite.getPosition().y - (pawn_sprite.getTexture()->getSize().y) / 2) < sf::Mouse::getPosition(window).y)
 
-        )
-            pawn_sprite.setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
-        window.display();
-    }
+    //     )
+    //         pawn_sprite.setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+    //     window.display();
+    // }
 
     return 0;
 }
