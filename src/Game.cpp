@@ -33,8 +33,6 @@ void Game::sRender()
     window.draw(board_sprite);
     for (auto const &piece : entities)
     {
-        piece->Csprite->figure.setPosition(chessbaord[piece->CcurrentPosition->block].x_center,
-                                           chessbaord[piece->CcurrentPosition->block].y_center);
         window.draw(piece->Csprite->figure);
     }
     window.display();
@@ -57,6 +55,54 @@ void Game::sUserInput()
                 window.close();
                 running = false;
             }
+        }
+        // Handle Left Mouse Clicks
+        if (event.type == sf::Event::MouseButtonPressed)
+        {
+            if (event.mouseButton.button == sf::Mouse::Left)
+            {
+                // std::cout<<"Pressed at"<<event.mouseButton.x<<":"<<event.mouseButton.y<<std::endl;
+                for (const auto &x : chessbaord)
+                {
+                    if ((x.second.top_right_x < event.mouseButton.x && x.second.top_right_x + 125 > event.mouseButton.x) &&
+                        (x.second.bottom_left_y > event.mouseButton.y && x.second.bottom_left_y - 125 < event.mouseButton.y))
+                    {
+                        for (const auto &en : entities)
+                        {
+                            if (en->CcurrentPosition->block == x.first)
+                            { // Same Sqare
+
+                                moving_piece = en; // get then piece to move
+                                move_piece = true; // get access to the piece
+                                std::cout << "Move Piece" << en->tag << ":" << en->id << std::endl;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (event.type == sf::Event::MouseButtonReleased)
+        {
+            if (event.mouseButton.button == sf::Mouse::Left)
+            {
+                move_piece = false;
+                for (const auto &x : chessbaord)
+                {
+                    if ((x.second.top_right_x < sf::Mouse::getPosition(window).x && x.second.top_right_x + 125 > sf::Mouse::getPosition(window).x) &&
+                        (x.second.bottom_left_y > sf::Mouse::getPosition(window).y && x.second.bottom_left_y - 125 < sf::Mouse::getPosition(window).y))
+                    {
+                        moving_piece->CcurrentPosition->block = x.first;
+                        moving_piece->Csprite->figure.setPosition(x.second.x_center,x.second.y_center);
+                    }
+                }
+                moving_piece = nullptr;
+            }
+        }
+
+        if (move_piece)
+        {
+            std::cout << "Move" << moving_piece->tag << ":" << moving_piece->id << std::endl;
+            moving_piece->Csprite->figure.setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
         }
     }
 }
@@ -130,12 +176,6 @@ void Game::loadPieces()
     white_knight_2->CcurrentPosition = std::make_shared<CCurrentPosition>("G1");
     white_knight_2->Csprite = std::make_shared<CSprite>(white_knight_texture);
 
-
-
-
-
-
-
     std::shared_ptr<Entity> black_king = std::make_shared<Entity>(number_of_entity, "king", false);
     number_of_entity++;
     entities.push_back(black_king);
@@ -184,6 +224,11 @@ void Game::loadPieces()
     black_knight_2->CcurrentPosition = std::make_shared<CCurrentPosition>("G8");
     black_knight_2->Csprite = std::make_shared<CSprite>(black_knight_texture);
 
+    for (auto const &piece : entities)
+    {
+        piece->Csprite->figure.setPosition(chessbaord[piece->CcurrentPosition->block].x_center,
+                                           chessbaord[piece->CcurrentPosition->block].y_center);
+    }
 }
 
 void Game::initialiseChessboard()

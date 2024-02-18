@@ -44,6 +44,8 @@ public:
     void loadTexture(); // load all the texture;
 
     bool running;
+    bool move_piece;
+    std::shared_ptr<Entity> moving_piece;
     int number_of_entity;
 
     void init();
