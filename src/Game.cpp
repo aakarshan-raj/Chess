@@ -11,8 +11,8 @@ void Game::init()
     number_of_entity = 0;
 
     initialiseChessboard();
-    loadPieces();
     loadTexture();
+    loadPieces();
 
     window.create(sf::VideoMode(1000, 1000), "Chess!");
     window.setFramerateLimit(60);
@@ -33,19 +33,9 @@ void Game::sRender()
     window.draw(board_sprite);
     for (auto const &piece : entities)
     {
-        std::cout<<"hi"<<std::endl;
-        if (piece->tag == "pawn" && piece->is_black)
-        {
-            black_pawn_spite.setPosition(chessbaord[piece->CcurrentPosition->block].x_center,
-                                         chessbaord[piece->CcurrentPosition->block].y_center);
-             window.draw(black_pawn_spite);                            
-        }
-        if (piece->tag == "pawn" && !piece->is_black)
-        {
-            white_pawn_spite.setPosition(chessbaord[piece->CcurrentPosition->block].x_center,
-                                         chessbaord[piece->CcurrentPosition->block].y_center);
-            window.draw(white_pawn_spite);
-        }
+        piece->Csprite->figure.setPosition(chessbaord[piece->CcurrentPosition->block].x_center,
+                                           chessbaord[piece->CcurrentPosition->block].y_center);
+        window.draw(piece->Csprite->figure);
     }
     window.display();
 }
@@ -79,7 +69,8 @@ void Game::loadPieces()
         std::shared_ptr<Entity> x = std::make_shared<Entity>(number_of_entity, "pawn", false);
         number_of_entity++;
         entities.push_back(x);
-        x->CcurrentPosition = std::make_shared<CCurrentPosition>(std::string(1, file) + "7");
+        x->CcurrentPosition = std::make_shared<CCurrentPosition>(std::string(1, file) + "2");
+        x->Csprite = std::make_shared<CSprite>(white_pawn_texture);
     }
 
     for (char file = 'A'; file <= 'H'; ++file)
@@ -87,8 +78,112 @@ void Game::loadPieces()
         std::shared_ptr<Entity> x = std::make_shared<Entity>(number_of_entity, "pawn", true);
         number_of_entity++;
         entities.push_back(x);
-        x->CcurrentPosition = std::make_shared<CCurrentPosition>(std::string(1, file) + "2");
+        x->CcurrentPosition = std::make_shared<CCurrentPosition>(std::string(1, file) + "7");
+        x->Csprite = std::make_shared<CSprite>(black_pawn_texture);
     }
+
+    std::shared_ptr<Entity> white_king = std::make_shared<Entity>(number_of_entity, "king", true);
+    number_of_entity++;
+    entities.push_back(white_king);
+    white_king->CcurrentPosition = std::make_shared<CCurrentPosition>("E1");
+    white_king->Csprite = std::make_shared<CSprite>(white_king_texture);
+
+    std::shared_ptr<Entity> white_queen = std::make_shared<Entity>(number_of_entity, "queen", true);
+    number_of_entity++;
+    entities.push_back(white_queen);
+    white_queen->CcurrentPosition = std::make_shared<CCurrentPosition>("D1");
+    white_queen->Csprite = std::make_shared<CSprite>(white_queen_texture);
+
+    std::shared_ptr<Entity> white_bishop = std::make_shared<Entity>(number_of_entity, "bishop", true);
+    number_of_entity++;
+    entities.push_back(white_bishop);
+    white_bishop->CcurrentPosition = std::make_shared<CCurrentPosition>("C1");
+    white_bishop->Csprite = std::make_shared<CSprite>(white_bishop_texture);
+
+    std::shared_ptr<Entity> white_bishop_2 = std::make_shared<Entity>(number_of_entity, "bishop", true);
+    number_of_entity++;
+    entities.push_back(white_bishop_2);
+    white_bishop_2->CcurrentPosition = std::make_shared<CCurrentPosition>("F1");
+    white_bishop_2->Csprite = std::make_shared<CSprite>(white_bishop_texture);
+
+    std::shared_ptr<Entity> white_rock = std::make_shared<Entity>(number_of_entity, "rock", true);
+    number_of_entity++;
+    entities.push_back(white_rock);
+    white_rock->CcurrentPosition = std::make_shared<CCurrentPosition>("A1");
+    white_rock->Csprite = std::make_shared<CSprite>(white_rook_texture);
+
+    std::shared_ptr<Entity> white_rook_2 = std::make_shared<Entity>(number_of_entity, "rock", true);
+    number_of_entity++;
+    entities.push_back(white_rook_2);
+    white_rook_2->CcurrentPosition = std::make_shared<CCurrentPosition>("H1");
+    white_rook_2->Csprite = std::make_shared<CSprite>(white_rook_texture);
+
+    std::shared_ptr<Entity> white_knight = std::make_shared<Entity>(number_of_entity, "knight", true);
+    number_of_entity++;
+    entities.push_back(white_knight);
+    white_knight->CcurrentPosition = std::make_shared<CCurrentPosition>("B1");
+    white_knight->Csprite = std::make_shared<CSprite>(white_knight_texture);
+
+    std::shared_ptr<Entity> white_knight_2 = std::make_shared<Entity>(number_of_entity, "knight", true);
+    number_of_entity++;
+    entities.push_back(white_knight_2);
+    white_knight_2->CcurrentPosition = std::make_shared<CCurrentPosition>("G1");
+    white_knight_2->Csprite = std::make_shared<CSprite>(white_knight_texture);
+
+
+
+
+
+
+
+    std::shared_ptr<Entity> black_king = std::make_shared<Entity>(number_of_entity, "king", false);
+    number_of_entity++;
+    entities.push_back(black_king);
+    black_king->CcurrentPosition = std::make_shared<CCurrentPosition>("E8");
+    black_king->Csprite = std::make_shared<CSprite>(black_king_texture);
+
+    std::shared_ptr<Entity> black_queen = std::make_shared<Entity>(number_of_entity, "queen", false);
+    number_of_entity++;
+    entities.push_back(black_queen);
+    black_queen->CcurrentPosition = std::make_shared<CCurrentPosition>("D8");
+    black_queen->Csprite = std::make_shared<CSprite>(black_queen_texture);
+
+    std::shared_ptr<Entity> black_bishop = std::make_shared<Entity>(number_of_entity, "bishop", false);
+    number_of_entity++;
+    entities.push_back(black_bishop);
+    black_bishop->CcurrentPosition = std::make_shared<CCurrentPosition>("C8");
+    black_bishop->Csprite = std::make_shared<CSprite>(black_bishop_texture);
+
+    std::shared_ptr<Entity> black_bishop_2 = std::make_shared<Entity>(number_of_entity, "bishop", false);
+    number_of_entity++;
+    entities.push_back(black_bishop_2);
+    black_bishop_2->CcurrentPosition = std::make_shared<CCurrentPosition>("F8");
+    black_bishop_2->Csprite = std::make_shared<CSprite>(black_bishop_texture);
+
+    std::shared_ptr<Entity> black_rock = std::make_shared<Entity>(number_of_entity, "rock", false);
+    number_of_entity++;
+    entities.push_back(black_rock);
+    black_rock->CcurrentPosition = std::make_shared<CCurrentPosition>("A8");
+    black_rock->Csprite = std::make_shared<CSprite>(black_rook_texture);
+
+    std::shared_ptr<Entity> black_rook_2 = std::make_shared<Entity>(number_of_entity, "rock", false);
+    number_of_entity++;
+    entities.push_back(black_rook_2);
+    black_rook_2->CcurrentPosition = std::make_shared<CCurrentPosition>("H8");
+    black_rook_2->Csprite = std::make_shared<CSprite>(black_rook_texture);
+
+    std::shared_ptr<Entity> black_knight = std::make_shared<Entity>(number_of_entity, "knight", false);
+    number_of_entity++;
+    entities.push_back(black_knight);
+    black_knight->CcurrentPosition = std::make_shared<CCurrentPosition>("B8");
+    black_knight->Csprite = std::make_shared<CSprite>(black_knight_texture);
+
+    std::shared_ptr<Entity> black_knight_2 = std::make_shared<Entity>(number_of_entity, "knight", false);
+    number_of_entity++;
+    entities.push_back(black_knight_2);
+    black_knight_2->CcurrentPosition = std::make_shared<CCurrentPosition>("G8");
+    black_knight_2->Csprite = std::make_shared<CSprite>(black_knight_texture);
+
 }
 
 void Game::initialiseChessboard()
@@ -174,13 +269,23 @@ void Game::loadTexture()
     board.loadFromFile("assets/board.jpg");
     board_sprite.setTexture(board);
 
-    black_pawn.loadFromFile("assets/pieces/black-pawn.png");
-    black_pawn_spite.setTexture(black_pawn);
-    black_pawn_spite.setOrigin(black_pawn.getSize().x / 2, black_pawn.getSize().y/2);
+    black_pawn_texture.loadFromFile("assets/pieces/black-pawn.png");
+    white_pawn_texture.loadFromFile("assets/pieces/white-pawn.png");
 
-    white_pawn.loadFromFile("assets/pieces/white-pawn.png");
-    white_pawn_spite.setTexture(white_pawn);
-    white_pawn_spite.setOrigin(white_pawn.getSize().x / 2, white_pawn.getSize().y/2);
+    black_king_texture.loadFromFile("assets/pieces/black-king.png");
+    white_king_texture.loadFromFile("assets/pieces/white-king.png");
+
+    black_queen_texture.loadFromFile("assets/pieces/black-queen.png");
+    white_queen_texture.loadFromFile("assets/pieces/white-queen.png");
+
+    black_knight_texture.loadFromFile("assets/pieces/black-knight.png");
+    white_knight_texture.loadFromFile("assets/pieces/white-knight.png");
+
+    black_rook_texture.loadFromFile("assets/pieces/black-rook.png");
+    white_rook_texture.loadFromFile("assets/pieces/white-rook.png");
+
+    black_bishop_texture.loadFromFile("assets/pieces/black-bishop.png");
+    white_bishop_texture.loadFromFile("assets/pieces/white-bishop.png");
 }
 
 // void Game::initialiseChessBoard()

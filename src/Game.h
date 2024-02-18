@@ -12,11 +12,19 @@ public:
     sf::Texture board;
     sf::Sprite board_sprite;
 
-    sf::Texture black_pawn;
-    sf::Sprite black_pawn_spite;
+    sf::Texture black_pawn_texture;
+    sf::Texture black_king_texture;
+    sf::Texture black_queen_texture;
+    sf::Texture black_bishop_texture;
+    sf::Texture black_knight_texture;
+    sf::Texture black_rook_texture;
 
-    sf::Texture white_pawn;
-    sf::Sprite white_pawn_spite;
+    sf::Texture white_pawn_texture;
+    sf::Texture white_king_texture;
+    sf::Texture white_queen_texture;
+    sf::Texture white_bishop_texture;
+    sf::Texture white_knight_texture;
+    sf::Texture white_rook_texture;
 
     std::vector<std::shared_ptr<Entity>> entities;
     struct top_down_center
